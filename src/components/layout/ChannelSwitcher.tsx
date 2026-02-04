@@ -14,10 +14,7 @@ const channels = [
   { id: 'voice' as const, label: 'Voice', icon: Mic },
 ];
 
-export function ChannelSwitcher({
-  activeChannel,
-  onChannelChange,
-}: ChannelSwitcherProps) {
+export function ChannelSwitcher({ activeChannel, onChannelChange }: ChannelSwitcherProps) {
   return (
     <div className="flex gap-2">
       {channels.map(({ id, label, icon: Icon }) => (
@@ -27,9 +24,7 @@ export function ChannelSwitcher({
           className={cn(
             'flex-1 flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors',
             'hover:bg-accent hover:text-accent-foreground',
-            activeChannel === id
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted-foreground'
+            activeChannel === id ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
           )}
           aria-label={label}
         >
