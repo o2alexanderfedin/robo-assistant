@@ -28,11 +28,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User sees realistic business scenarios (not lorem ipsum placeholder content)
   3. Demo loads on GitHub Pages with functional CI/CD deployment
   4. Project has development environment with hot-reload and build scripts
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md - Project setup (Vite + React + TypeScript + shadcn/ui + dev tooling)
+- [ ] 01-02-PLAN.md - Layout foundation (split-view layout, navigation panel structure)
+- [ ] 01-03-PLAN.md - Chat interface (message list, input, typing indicator, auto-scroll)
+- [ ] 01-04-PLAN.md - Demo data & scenarios (personas, pre-scripted responses, realistic content)
+- [ ] 01-05-PLAN.md - Scenario integration (connect chat with scenarios, persona switching)
+- [ ] 01-06-PLAN.md - CI/CD & deployment (GitHub Actions, GitHub Pages)
 
 ### Phase 2: Multi-Channel Communication
 **Goal**: Demonstrate cross-channel context preservation with multiple communication interfaces
@@ -93,11 +97,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Demo Foundation | 0/TBD | Not started | - |
+| 1. Demo Foundation | 0/6 | Planned | - |
 | 2. Multi-Channel Communication | 0/TBD | Not started | - |
 | 3. Business Intelligence | 0/TBD | Not started | - |
 | 4. Demo Experience | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-02-04*
-*Last updated: 2026-02-04 after initial roadmap creation*
+*Last updated: 2026-02-04 after Phase 1 planning complete*
