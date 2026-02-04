@@ -149,7 +149,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase   | Status  |
 | ----------- | ------- | ------- |
-| UI-01       | Phase 1 | Pending |
+| UI-01       | Phase 1 | Complete |
 | UI-02       | Phase 2 | Pending |
 | UI-03       | Phase 2 | Pending |
 | UI-04       | Phase 2 | Pending |
@@ -179,7 +179,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STRAT-04    | Phase 3 | Pending |
 | DEMO-01     | Phase 4 | Pending |
 | DEMO-02     | Phase 4 | Pending |
-| DEMO-03     | Phase 1 | Pending |
+| DEMO-03     | Phase 1 | Complete |
 | DEMO-04     | Phase 4 | Pending |
 
 **Coverage:**
