@@ -45,11 +45,12 @@ The demo will showcase the AI assistant's ability to handle business communicati
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| Demo-first approach | Validate concept before building production SaaS | — Pending |
-| GitHub Pages deployment | Fast, free hosting for initial demonstration | — Pending |
-| Simulated interactions | Show capabilities without complex integrations | — Pending |
+| Decision                | Rationale                                        | Outcome   |
+| ----------------------- | ------------------------------------------------ | --------- |
+| Demo-first approach     | Validate concept before building production SaaS | — Pending |
+| GitHub Pages deployment | Fast, free hosting for initial demonstration     | — Pending |
+| Simulated interactions  | Show capabilities without complex integrations   | — Pending |
 
 ---
-*Last updated: 2026-02-04 after initialization*
+
+_Last updated: 2026-02-04 after initialization_

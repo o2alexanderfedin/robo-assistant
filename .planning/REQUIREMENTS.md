@@ -131,62 +131,64 @@ Real integrations and backend infrastructure. Deferred until demo validates mark
 
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
+| Feature                          | Reason                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------- |
 | Fully autonomous decision-making | Creates accountability gap; requires human-in-loop for critical decisions |
-| Access to all company data | Security nightmare; use role-based access instead |
-| One AI for all roles | Jack-of-all-trades approach dilutes effectiveness; use specialized agents |
-| Custom LLM training | Expensive and unnecessary; prompt engineering + RAG sufficient |
-| Mobile native apps (Phase 1) | Web-first; mobile can come later after validation |
-| Real-time voice in demo | High complexity; simulated voice sufficient for demo phase |
-| CRM integrations (Phase 1) | Complex bidirectional sync; defer until core features proven |
-| Custom workflow builder UI | Uncertain demand; start with pre-defined workflows |
-| Unlimited free tier | Cost sustainability; need usage-based pricing from start |
+| Access to all company data       | Security nightmare; use role-based access instead                         |
+| One AI for all roles             | Jack-of-all-trades approach dilutes effectiveness; use specialized agents |
+| Custom LLM training              | Expensive and unnecessary; prompt engineering + RAG sufficient            |
+| Mobile native apps (Phase 1)     | Web-first; mobile can come later after validation                         |
+| Real-time voice in demo          | High complexity; simulated voice sufficient for demo phase                |
+| CRM integrations (Phase 1)       | Complex bidirectional sync; defer until core features proven              |
+| Custom workflow builder UI       | Uncertain demand; start with pre-defined workflows                        |
+| Unlimited free tier              | Cost sustainability; need usage-based pricing from start                  |
 
 ## Traceability
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| UI-01 | Phase 1 | Pending |
-| UI-02 | Phase 2 | Pending |
-| UI-03 | Phase 2 | Pending |
-| UI-04 | Phase 2 | Pending |
-| UI-05 | Phase 4 | Pending |
-| COMM-01 | Phase 2 | Pending |
-| COMM-02 | Phase 2 | Pending |
-| COMM-03 | Phase 2 | Pending |
-| COMM-04 | Phase 2 | Pending |
-| EMAIL-01 | Phase 3 | Pending |
-| EMAIL-02 | Phase 3 | Pending |
-| EMAIL-03 | Phase 3 | Pending |
-| EMAIL-04 | Phase 3 | Pending |
-| CAL-01 | Phase 3 | Pending |
-| CAL-02 | Phase 3 | Pending |
-| CAL-03 | Phase 3 | Pending |
-| CAL-04 | Phase 3 | Pending |
-| TASK-01 | Phase 3 | Pending |
-| TASK-02 | Phase 3 | Pending |
-| TASK-03 | Phase 3 | Pending |
-| TASK-04 | Phase 3 | Pending |
-| VOICE-01 | Phase 4 | Pending |
-| VOICE-02 | Phase 4 | Pending |
-| VOICE-03 | Phase 4 | Pending |
-| STRAT-01 | Phase 3 | Pending |
-| STRAT-02 | Phase 3 | Pending |
-| STRAT-03 | Phase 3 | Pending |
-| STRAT-04 | Phase 3 | Pending |
-| DEMO-01 | Phase 4 | Pending |
-| DEMO-02 | Phase 4 | Pending |
-| DEMO-03 | Phase 1 | Pending |
-| DEMO-04 | Phase 4 | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| UI-01       | Phase 1 | Pending |
+| UI-02       | Phase 2 | Pending |
+| UI-03       | Phase 2 | Pending |
+| UI-04       | Phase 2 | Pending |
+| UI-05       | Phase 4 | Pending |
+| COMM-01     | Phase 2 | Pending |
+| COMM-02     | Phase 2 | Pending |
+| COMM-03     | Phase 2 | Pending |
+| COMM-04     | Phase 2 | Pending |
+| EMAIL-01    | Phase 3 | Pending |
+| EMAIL-02    | Phase 3 | Pending |
+| EMAIL-03    | Phase 3 | Pending |
+| EMAIL-04    | Phase 3 | Pending |
+| CAL-01      | Phase 3 | Pending |
+| CAL-02      | Phase 3 | Pending |
+| CAL-03      | Phase 3 | Pending |
+| CAL-04      | Phase 3 | Pending |
+| TASK-01     | Phase 3 | Pending |
+| TASK-02     | Phase 3 | Pending |
+| TASK-03     | Phase 3 | Pending |
+| TASK-04     | Phase 3 | Pending |
+| VOICE-01    | Phase 4 | Pending |
+| VOICE-02    | Phase 4 | Pending |
+| VOICE-03    | Phase 4 | Pending |
+| STRAT-01    | Phase 3 | Pending |
+| STRAT-02    | Phase 3 | Pending |
+| STRAT-03    | Phase 3 | Pending |
+| STRAT-04    | Phase 3 | Pending |
+| DEMO-01     | Phase 4 | Pending |
+| DEMO-02     | Phase 4 | Pending |
+| DEMO-03     | Phase 1 | Pending |
+| DEMO-04     | Phase 4 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 32 total
 - Mapped to phases: 32
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-02-04*
-*Last updated: 2026-02-04 after roadmap creation*
+
+_Requirements defined: 2026-02-04_
+_Last updated: 2026-02-04 after roadmap creation_

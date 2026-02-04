@@ -14,6 +14,7 @@ Establish project infrastructure and core chat interface for natural language in
 ## Implementation Decisions
 
 ### Layout Architecture
+
 - **Split view layout** with navigation/info panel on LEFT, chat/messages area on RIGHT
 - Left panel contains four sections:
   - Channel switcher (toggle between Chat, WhatsApp, Email, Voice)
@@ -23,11 +24,13 @@ Establish project infrastructure and core chat interface for natural language in
 - Right panel displays the active conversation
 
 ### Chat Interface Design
+
 - **Chat bubbles** for message display (WhatsApp/iMessage style - rounded, modern messaging feel)
 - **Light & airy visual style**: white/light gray background, soft colors, spacious layout - friendly and approachable
 - Message bubbles use modern chat conventions
 
 ### AI Response Behavior
+
 - **Hybrid approach**: Guided scenarios with variation - balance between pre-scripted reliability and dynamic flexibility
 - **Typing indicators for longer responses only** - shows "Assistant is typing..." for responses that would take time, skip for quick replies
 - **Gentle redirect** for off-script inputs: "Let me help with [available scenarios]" - guide users back to demo paths without breaking immersion
@@ -37,6 +40,7 @@ Establish project infrastructure and core chat interface for natural language in
   - Status updates ("Checking calendar...", "Drafting email..." progress messages)
 
 ### Demo Scenarios & Content
+
 - **Two switchable personas** to show different clients:
   1. Startup founder (fast-paced, investor emails, growth focus)
   2. Executive/CEO (strategic decisions, board meetings, high-level communications)
@@ -49,6 +53,7 @@ Establish project infrastructure and core chat interface for natural language in
 - **Both tutorial and free exploration**: Tutorial walkthrough on first visit, then free exploration mode - best of both approaches
 
 ### Tech Stack & Deployment
+
 - **Framework**: Vite (faster builds, simpler for GitHub Pages static deployment)
 - **UI Components**: shadcn/ui + Tailwind CSS (modern, customizable, research-validated)
 - **TypeScript**: Strict mode enabled for quality
@@ -63,6 +68,7 @@ Establish project infrastructure and core chat interface for natural language in
   - Full development workflow setup
 
 ### Claude's Discretion
+
 - Exact spacing, typography, and micro-interactions
 - Loading skeleton design specifics
 - Error state handling details
@@ -91,5 +97,5 @@ None — discussion stayed within phase scope. Multi-channel views (WhatsApp, Em
 
 ---
 
-*Phase: 01-demo-foundation*
-*Context gathered: 2026-02-04*
+_Phase: 01-demo-foundation_
+_Context gathered: 2026-02-04_

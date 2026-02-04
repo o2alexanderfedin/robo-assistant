@@ -20,16 +20,17 @@ The established libraries/tools for this domain:
 
 ### Core
 
-| Library | Version | Purpose | Why Standard |
-|---------|---------|---------|--------------|
-| Vite | 5.x+ | Build tool & dev server | Industry standard for React in 2026, near-instant HMR, optimized production builds, official React template support |
-| React | 18.x | UI framework | Current stable version with Concurrent Features, hooks, strict mode |
-| TypeScript | 5.x+ | Type system | 80%+ of frontend jobs require TS, self-documenting code, catch errors at compile time |
-| shadcn/ui | Latest | UI component system | Components you own (not npm library), built on Radix UI primitives, highly customizable, Tailwind-native |
-| Tailwind CSS | 3.x/4.x | Utility-first CSS | Official shadcn/ui styling system, rapid UI development, v4 supports CSS-only config |
-| React Router | 6.x | Client-side routing | Standard React routing solution, TypeScript support, Vite plugin available |
+| Library      | Version | Purpose                 | Why Standard                                                                                                        |
+| ------------ | ------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Vite         | 5.x+    | Build tool & dev server | Industry standard for React in 2026, near-instant HMR, optimized production builds, official React template support |
+| React        | 18.x    | UI framework            | Current stable version with Concurrent Features, hooks, strict mode                                                 |
+| TypeScript   | 5.x+    | Type system             | 80%+ of frontend jobs require TS, self-documenting code, catch errors at compile time                               |
+| shadcn/ui    | Latest  | UI component system     | Components you own (not npm library), built on Radix UI primitives, highly customizable, Tailwind-native            |
+| Tailwind CSS | 3.x/4.x | Utility-first CSS       | Official shadcn/ui styling system, rapid UI development, v4 supports CSS-only config                                |
+| React Router | 6.x     | Client-side routing     | Standard React routing solution, TypeScript support, Vite plugin available                                          |
 
 **Installation:**
+
 ```bash
 # Create Vite project with React-TS template
 npm create vite@latest robo-assistant-demo -- --template react-ts
@@ -46,17 +47,18 @@ npm install react-router-dom
 
 ### Supporting
 
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| MSW (Mock Service Worker) | 2.x | API mocking/simulation | Demos, development, testing - intercepts network requests at platform level |
-| Falso (@ngneat/falso) | Latest | Demo data generation | Tree-shakable, TypeScript-native, 169+ generators for realistic data |
-| React Joyride | 2.x | Guided tours | Tutorial mode - production-ready tour/walkthrough component |
-| Zustand | 4.x | State management | Optional if Context becomes complex - minimal boilerplate, good performance |
-| Lucide React | Latest | Icon library | Default for shadcn/ui, tree-shakable, consistent design system |
-| class-variance-authority | Latest | Component variants | Required by shadcn/ui for managing component states |
-| tailwind-merge + clsx | Latest | Conditional classes | Required by shadcn/ui cn() utility for merging Tailwind classes |
+| Library                   | Version | Purpose                | When to Use                                                                 |
+| ------------------------- | ------- | ---------------------- | --------------------------------------------------------------------------- |
+| MSW (Mock Service Worker) | 2.x     | API mocking/simulation | Demos, development, testing - intercepts network requests at platform level |
+| Falso (@ngneat/falso)     | Latest  | Demo data generation   | Tree-shakable, TypeScript-native, 169+ generators for realistic data        |
+| React Joyride             | 2.x     | Guided tours           | Tutorial mode - production-ready tour/walkthrough component                 |
+| Zustand                   | 4.x     | State management       | Optional if Context becomes complex - minimal boilerplate, good performance |
+| Lucide React              | Latest  | Icon library           | Default for shadcn/ui, tree-shakable, consistent design system              |
+| class-variance-authority  | Latest  | Component variants     | Required by shadcn/ui for managing component states                         |
+| tailwind-merge + clsx     | Latest  | Conditional classes    | Required by shadcn/ui cn() utility for merging Tailwind classes             |
 
 **Installation:**
+
 ```bash
 # MSW for API simulation
 npm install --save-dev msw@latest
@@ -79,14 +81,14 @@ npm install zustand
 
 ### Alternatives Considered
 
-| Instead of | Could Use | Tradeoff |
-|------------|-----------|----------|
-| Vite | Create React App | CRA is deprecated, slower, no longer maintained |
-| shadcn/ui | Material-UI, Ant Design | Traditional libraries = larger bundles, less customization, update dependencies |
-| Falso | @faker-js/faker | Faker is larger, not optimally tree-shakable, Falso is modern TypeScript-first |
-| MSW | Hardcoded mock data | MSW provides realistic network layer, reusable across dev/test/Storybook/demos |
-| React Router | TanStack Router | React Router is more mature, larger ecosystem, simpler for standard use cases |
-| Zustand | Redux Toolkit, Recoil | Redux is overkill for demos, Zustand has minimal boilerplate and great DX |
+| Instead of   | Could Use               | Tradeoff                                                                        |
+| ------------ | ----------------------- | ------------------------------------------------------------------------------- |
+| Vite         | Create React App        | CRA is deprecated, slower, no longer maintained                                 |
+| shadcn/ui    | Material-UI, Ant Design | Traditional libraries = larger bundles, less customization, update dependencies |
+| Falso        | @faker-js/faker         | Faker is larger, not optimally tree-shakable, Falso is modern TypeScript-first  |
+| MSW          | Hardcoded mock data     | MSW provides realistic network layer, reusable across dev/test/Storybook/demos  |
+| React Router | TanStack Router         | React Router is more mature, larger ecosystem, simpler for standard use cases   |
+| Zustand      | Redux Toolkit, Recoil   | Redux is overkill for demos, Zustand has minimal boilerplate and great DX       |
 
 ## Architecture Patterns
 
@@ -154,6 +156,7 @@ src/
 ```
 
 **Key principles:**
+
 - Feature folders contain ALL related code (components, hooks, types, data)
 - `/components/ui/` is shadcn/ui territory (don't edit directly, regenerate if needed)
 - Reusable components go in `/components/`, feature-specific ones stay in `/features/`
@@ -167,6 +170,7 @@ src/
 **When to use:** Message list in chat interface
 
 **Example:**
+
 ```typescript
 // Source: Multiple production chat implementations
 import { useEffect, useRef } from 'react';
@@ -210,6 +214,7 @@ export function MessageList({ messages }: { messages: Message[] }) {
 **When to use:** Before displaying AI message, only for longer responses
 
 **Example:**
+
 ```typescript
 // Source: Stream Chat SDK patterns + custom implementation
 import { useState, useEffect } from 'react';
@@ -263,6 +268,7 @@ export function useChatSimulation() {
 **When to use:** Demo environments, development without backend, Storybook
 
 **Example:**
+
 ```typescript
 // Source: https://mswjs.io/docs/
 // src/lib/msw/handlers.ts
@@ -276,7 +282,7 @@ export const handlers = [
       emails: [
         generateMockEmail({ priority: 'high', from: 'investor@acme.vc' }),
         generateMockEmail({ priority: 'low', from: 'newsletter@tech.com' }),
-      ]
+      ],
     });
   }),
 
@@ -289,7 +295,7 @@ export const handlers = [
         id: crypto.randomUUID(),
         title: body.title,
         time: body.time,
-      }
+      },
     });
   }),
 ];
@@ -319,11 +325,21 @@ if (import.meta.env.DEV) {
 **When to use:** Creating mock emails, meetings, tasks, contacts
 
 **Example:**
+
 ```typescript
 // Source: @ngneat/falso documentation
-import { randEmail, randFullName, randCompanyName, randPastDate, randParagraph } from '@ngneat/falso';
+import {
+  randEmail,
+  randFullName,
+  randCompanyName,
+  randPastDate,
+  randParagraph,
+} from '@ngneat/falso';
 
-export function generateMockEmail(options?: { priority?: 'high' | 'medium' | 'low'; from?: string }) {
+export function generateMockEmail(options?: {
+  priority?: 'high' | 'medium' | 'low';
+  from?: string;
+}) {
   return {
     id: crypto.randomUUID(),
     from: options?.from || randEmail(),
@@ -360,6 +376,7 @@ function generateEmailSubject(priority?: string): string {
 **When to use:** Deploying to `username.github.io/repo-name`
 
 **Example:**
+
 ```typescript
 // vite.config.ts
 import { defineConfig } from 'vite';
@@ -425,6 +442,7 @@ jobs:
 **When to use:** Components with multiple visual states (message bubbles, buttons, cards)
 
 **Example:**
+
 ```typescript
 // Source: shadcn/ui button component pattern
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -479,18 +497,18 @@ export function ChatBubble({ message, role, status }: ChatBubbleProps) {
 
 Problems that look simple but have existing solutions:
 
-| Problem | Don't Build | Use Instead | Why |
-|---------|-------------|-------------|-----|
-| API mocking | Hardcoded mock data in components | MSW (Mock Service Worker) | Intercepts at network level, reusable across dev/test/demo, realistic request/response cycle |
-| Demo data generation | Manual arrays of fake data | Falso or MiniFaker | Maintains consistency, tree-shakable, TypeScript types, 169+ generators |
-| UI components | Custom buttons, inputs, modals from scratch | shadcn/ui + Radix UI primitives | Accessible, keyboard navigation, focus management, tested across browsers |
-| Class name merging | String concatenation or template literals | tailwind-merge + clsx (cn utility) | Properly merges conflicting Tailwind classes, handles conditionals |
-| Icon library | SVG files or icon fonts | Lucide React | Tree-shakable, consistent design system, 1000+ icons, TypeScript support |
-| Guided tours | Custom tooltip/modal system | React Joyride or Reactour | Handles positioning, z-index, keyboard navigation, mobile, step management |
-| Auto-scrolling chat | Manual scrollIntoView logic | Intersection Observer + ref pattern | Handles edge cases (user scrolled up, rapid messages, resize) |
-| Date/time formatting | Custom formatters | date-fns or dayjs | Handles timezones, i18n, relative time ("2 hours ago") |
-| Form validation | Manual validation logic | React Hook Form + Zod | Type-safe schemas, error messages, async validation, touched/dirty state |
-| Color theming | Manual CSS variables | shadcn/ui theming system | Supports light/dark mode, semantic tokens, oklch color space |
+| Problem              | Don't Build                                 | Use Instead                         | Why                                                                                          |
+| -------------------- | ------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| API mocking          | Hardcoded mock data in components           | MSW (Mock Service Worker)           | Intercepts at network level, reusable across dev/test/demo, realistic request/response cycle |
+| Demo data generation | Manual arrays of fake data                  | Falso or MiniFaker                  | Maintains consistency, tree-shakable, TypeScript types, 169+ generators                      |
+| UI components        | Custom buttons, inputs, modals from scratch | shadcn/ui + Radix UI primitives     | Accessible, keyboard navigation, focus management, tested across browsers                    |
+| Class name merging   | String concatenation or template literals   | tailwind-merge + clsx (cn utility)  | Properly merges conflicting Tailwind classes, handles conditionals                           |
+| Icon library         | SVG files or icon fonts                     | Lucide React                        | Tree-shakable, consistent design system, 1000+ icons, TypeScript support                     |
+| Guided tours         | Custom tooltip/modal system                 | React Joyride or Reactour           | Handles positioning, z-index, keyboard navigation, mobile, step management                   |
+| Auto-scrolling chat  | Manual scrollIntoView logic                 | Intersection Observer + ref pattern | Handles edge cases (user scrolled up, rapid messages, resize)                                |
+| Date/time formatting | Custom formatters                           | date-fns or dayjs                   | Handles timezones, i18n, relative time ("2 hours ago")                                       |
+| Form validation      | Manual validation logic                     | React Hook Form + Zod               | Type-safe schemas, error messages, async validation, touched/dirty state                     |
+| Color theming        | Manual CSS variables                        | shadcn/ui theming system            | Supports light/dark mode, semantic tokens, oklch color space                                 |
 
 **Key insight:** The demo needs to feel polished and professional. Using battle-tested libraries for UI components, mocking, and data generation ensures consistency and quality that would take weeks to build from scratch. Focus effort on the demo's unique value proposition (business scenarios, AI simulation quality), not reinventing solved problems.
 
@@ -503,6 +521,7 @@ Problems that look simple but have existing solutions:
 **Why it happens:** GitHub Pages serves static files. When a user visits `/chat`, GitHub looks for `chat.html` (doesn't exist) instead of serving `index.html` and letting React Router handle routing.
 
 **How to avoid:**
+
 1. Use hash routing (`createHashRouter` instead of `createBrowserRouter`) for GitHub Pages
 2. OR add a 404.html redirect trick (copy index.html to 404.html in build)
 3. OR use GitHub Actions deployment with proper SPA redirect handling
@@ -510,6 +529,7 @@ Problems that look simple but have existing solutions:
 **Warning signs:** Routes work in `npm run dev` but fail in GitHub Pages deployment
 
 **Recommended solution:**
+
 ```typescript
 // src/main.tsx - Use hash routing for GitHub Pages
 import { createHashRouter } from 'react-router-dom';
@@ -531,6 +551,7 @@ const router = createHashRouter([
 **Warning signs:** Blank page in production, 404s in Network tab for all assets, works fine on `localhost`
 
 **Example fix:**
+
 ```typescript
 // vite.config.ts
 export default defineConfig({
@@ -546,6 +567,7 @@ export default defineConfig({
 **Why it happens:** shadcn/ui components are YOUR code, not an npm package. When you regenerate a component, it overwrites your modifications. When dependencies (Radix UI) have breaking changes, YOUR components break.
 
 **How to avoid:**
+
 1. Don't directly modify components in `/components/ui/`
 2. Copy components to feature folders if you need customization
 3. Use composition and className props to extend instead of editing
@@ -558,11 +580,13 @@ export default defineConfig({
 **What goes wrong:** Environment variables work in development but are `undefined` in production, or variables aren't accessible at all.
 
 **Why it happens:**
+
 1. Vite only exposes variables prefixed with `VITE_*`
 2. Must restart dev server after adding new `.env` variables
 3. Variables are embedded at build time, not runtime
 
 **How to avoid:**
+
 1. Prefix all variables with `VITE_`: `VITE_API_URL` not `API_URL`
 2. Access via `import.meta.env.VITE_API_URL` not `process.env`
 3. Never put secrets in `VITE_*` variables (they're in the client bundle)
@@ -571,6 +595,7 @@ export default defineConfig({
 **Warning signs:** `undefined` when accessing env vars, "process is not defined" errors
 
 **Example:**
+
 ```bash
 # .env - Only VITE_* prefix is exposed
 VITE_APP_TITLE="Robo Assistant Demo"
@@ -590,11 +615,13 @@ console.log(process.env.VITE_APP_TITLE); // Error: process is not defined
 **What goes wrong:** Making changes requires full page refresh, losing app state. HMR is slow or breaks completely.
 
 **Why it happens:**
+
 1. Multiple component exports from one file break React Fast Refresh
 2. Anonymous default exports don't preserve component identity
 3. Side effects in module scope prevent HMR
 
 **How to avoid:**
+
 1. One component export per file (use eslint-plugin-react-refresh)
 2. Named exports over default exports
 3. No side effects in module scope (no component.onclick = ... at top level)
@@ -602,6 +629,7 @@ console.log(process.env.VITE_APP_TITLE); // Error: process is not defined
 **Warning signs:** Page refreshes instead of hot updating, state resets on every change, "Could not Fast Refresh" warnings
 
 **Example:**
+
 ```typescript
 // BAD - Breaks HMR
 export default function() { return <div>Hi</div> }
@@ -619,6 +647,7 @@ export function ChatBubble() { return <div>Message</div> }
 **Why it happens:** Strict mode enables checks like `strictNullChecks`, `noImplicitAny`, `strictFunctionTypes` which catch real bugs but require fixing existing code.
 
 **How to avoid:**
+
 1. Enable strict mode from project start (recommended)
 2. OR migrate gradually: enable one strict flag at a time
 3. Use `// @ts-expect-error` temporarily for planned fixes, never `// @ts-ignore`
@@ -626,14 +655,15 @@ export function ChatBubble() { return <div>Message</div> }
 **Warning signs:** Thousands of type errors after enabling strict mode, team resistance to TypeScript
 
 **Gradual migration:**
+
 ```json
 // tsconfig.json - Enable one at a time
 {
   "compilerOptions": {
     "strict": false,
-    "noImplicitAny": true,     // Week 1
-    "strictNullChecks": true,  // Week 2
-    "strictFunctionTypes": true, // Week 3
+    "noImplicitAny": true, // Week 1
+    "strictNullChecks": true, // Week 2
+    "strictFunctionTypes": true // Week 3
     // ... continue until all strict flags are true, then flip strict: true
   }
 }
@@ -644,11 +674,13 @@ export function ChatBubble() { return <div>Message</div> }
 **What goes wrong:** New messages appear but user must manually scroll down to see them. Or it scrolls when user is reading old messages (annoying).
 
 **Why it happens:**
+
 1. `scrollIntoView` called before DOM updates (React render not committed)
 2. No check if user has scrolled up (should not auto-scroll if reading history)
 3. ScrollArea component doesn't expose scroll container ref properly
 
 **How to avoid:**
+
 1. Use `useEffect` with messages dependency to scroll after render
 2. Use Intersection Observer to detect if user is at bottom before auto-scrolling
 3. Get proper ref to scroll container (not wrapper div)
@@ -656,6 +688,7 @@ export function ChatBubble() { return <div>Message</div> }
 **Warning signs:** Manual scrolling required for new messages, scrolling interrupts reading, works inconsistently
 
 **Better pattern:**
+
 ```typescript
 function useAutoScroll(messages: Message[]) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -713,10 +746,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prettier/prettier': 'error',
     },
   }
@@ -811,7 +841,7 @@ export default tseslint.config(
 
     /* Borders - subtle, light gray */
     --border: oklch(0.92 0.002 230);
-    --input: oklch(0.90 0.003 230);
+    --input: oklch(0.9 0.003 230);
     --ring: oklch(0.5 0.15 230);
 
     /* Semantic colors */
@@ -836,7 +866,9 @@ export default tseslint.config(
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 }
 ```
@@ -884,23 +916,24 @@ export default defineConfig({
 
 ## State of the Art
 
-| Old Approach | Current Approach | When Changed | Impact |
-|--------------|------------------|--------------|--------|
-| Create React App | Vite | 2023-2024 | CRA deprecated, Vite 10-100x faster HMR, smaller bundles |
-| Component libraries (MUI, Ant) | shadcn/ui (copy-paste components) | 2023-2024 | No npm dependencies for UI, full customization, smaller bundles |
-| Faker.js | Falso, MiniFaker | 2022 | Tree-shakable, TypeScript-first, better performance |
-| Redux for all state | Context + Zustand/Jotai | 2021-2023 | Less boilerplate, hooks-first, right-size state management |
-| Tailwind v3 JS config | Tailwind v4 CSS config | 2024-2025 | Simpler setup, CSS-based config, better performance |
-| ESLint legacy config | ESLint flat config | 2024 | Simpler, more maintainable, TypeScript-native |
-| Default exports | Named exports | 2023-2024 | Better HMR, tree-shaking, refactoring in IDEs |
-| Axios for requests | Native fetch | 2022-2023 | Built-in, no dependencies, MSW works with both |
+| Old Approach                   | Current Approach                  | When Changed | Impact                                                          |
+| ------------------------------ | --------------------------------- | ------------ | --------------------------------------------------------------- |
+| Create React App               | Vite                              | 2023-2024    | CRA deprecated, Vite 10-100x faster HMR, smaller bundles        |
+| Component libraries (MUI, Ant) | shadcn/ui (copy-paste components) | 2023-2024    | No npm dependencies for UI, full customization, smaller bundles |
+| Faker.js                       | Falso, MiniFaker                  | 2022         | Tree-shakable, TypeScript-first, better performance             |
+| Redux for all state            | Context + Zustand/Jotai           | 2021-2023    | Less boilerplate, hooks-first, right-size state management      |
+| Tailwind v3 JS config          | Tailwind v4 CSS config            | 2024-2025    | Simpler setup, CSS-based config, better performance             |
+| ESLint legacy config           | ESLint flat config                | 2024         | Simpler, more maintainable, TypeScript-native                   |
+| Default exports                | Named exports                     | 2023-2024    | Better HMR, tree-shaking, refactoring in IDEs                   |
+| Axios for requests             | Native fetch                      | 2022-2023    | Built-in, no dependencies, MSW works with both                  |
 
 **Deprecated/outdated:**
+
 - **Create React App**: Officially unmaintained, use Vite or Next.js
 - **tailwindcss-animate**: Replaced by tw-animate-css for shadcn/ui
 - **react-scripts**: Part of CRA, deprecated
 - **PropTypes**: Use TypeScript interfaces instead
-- **process.env in Vite**: Use import.meta.env with VITE_ prefix
+- **process.env in Vite**: Use import.meta.env with VITE\_ prefix
 
 ## Open Questions
 
@@ -964,6 +997,7 @@ Things that couldn't be fully resolved:
 ## Metadata
 
 **Confidence breakdown:**
+
 - Standard stack: HIGH - All recommendations from official documentation or widely-adopted industry standards
 - Architecture: HIGH - Patterns from official docs (Vite, shadcn/ui) and production chat applications (Stream, Sendbird)
 - Pitfalls: MEDIUM-HIGH - Mix of official documentation (Vite base path) and community-reported issues (GitHub discussions)
@@ -972,6 +1006,7 @@ Things that couldn't be fully resolved:
 **Valid until:** 2026-03-04 (30 days - React/Vite ecosystem is stable, but check for Tailwind v4 stable release and shadcn/ui updates)
 
 **Key findings requiring validation during implementation:**
+
 1. Tailwind v4 adoption status - check if shadcn/ui has fully migrated
 2. Exact shadcn/ui CLI version and component list - verify during setup
 3. GitHub Pages deployment permissions - may require repository settings check

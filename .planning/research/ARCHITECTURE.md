@@ -56,16 +56,16 @@
 
 ### Component Responsibilities
 
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| **Channel Gateway** | Normalize messages from different platforms into unified format; preserve channel-specific context | Multi-channel webhook receiver with adapters per platform (WhatsApp API, Telegram Bot API, IMAP/SMTP) |
-| **AI Orchestrator** | Route requests to appropriate models/tools; manage conversation state; coordinate multi-step workflows | LangChain, Semantic Kernel, or custom orchestration with state machines |
-| **Intent Classifier** | Analyze user query complexity; determine if simple FAQ or complex multi-step task | Fast LLM or fine-tuned classification model |
-| **Dialog Manager** | Track conversation context; manage multi-turn interactions; maintain session state | State store (Redis) + conversation history tracking |
-| **RAG Engine** | Retrieve relevant context from knowledge base; chunk, embed, and search documents | Vector DB (Pinecone, Chroma) + embedding model + hybrid retrieval (vector + BM25) |
-| **LLM Core** | Generate responses grounded in retrieved context; reason about actions | GPT-4, Claude 3.5, or similar frontier models via API |
-| **Action Executor** | Perform external actions (calendar, email, CRM); validate permissions; handle API calls | Tool/function calling with API integrations |
-| **State Store** | Maintain conversation sessions; cache computed contexts; track user preferences | Redis for real-time, PostgreSQL for persistent state |
+| Component             | Responsibility                                                                                         | Typical Implementation                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| **Channel Gateway**   | Normalize messages from different platforms into unified format; preserve channel-specific context     | Multi-channel webhook receiver with adapters per platform (WhatsApp API, Telegram Bot API, IMAP/SMTP) |
+| **AI Orchestrator**   | Route requests to appropriate models/tools; manage conversation state; coordinate multi-step workflows | LangChain, Semantic Kernel, or custom orchestration with state machines                               |
+| **Intent Classifier** | Analyze user query complexity; determine if simple FAQ or complex multi-step task                      | Fast LLM or fine-tuned classification model                                                           |
+| **Dialog Manager**    | Track conversation context; manage multi-turn interactions; maintain session state                     | State store (Redis) + conversation history tracking                                                   |
+| **RAG Engine**        | Retrieve relevant context from knowledge base; chunk, embed, and search documents                      | Vector DB (Pinecone, Chroma) + embedding model + hybrid retrieval (vector + BM25)                     |
+| **LLM Core**          | Generate responses grounded in retrieved context; reason about actions                                 | GPT-4, Claude 3.5, or similar frontier models via API                                                 |
+| **Action Executor**   | Perform external actions (calendar, email, CRM); validate permissions; handle API calls                | Tool/function calling with API integrations                                                           |
+| **State Store**       | Maintain conversation sessions; cache computed contexts; track user preferences                        | Redis for real-time, PostgreSQL for persistent state                                                  |
 
 ## Recommended Project Structure
 
@@ -130,20 +130,22 @@ src/
 **When to use:** When building cross-platform assistants that need consistent behavior across WhatsApp, Telegram, Email, Slack, etc.
 
 **Trade-offs:**
+
 - **Pros:** Single codebase for business logic; consistent user experience; easier to maintain and test; add new channels without touching core logic
 - **Cons:** Gateway becomes a single point of failure; channel-specific features may be harder to implement; requires careful abstraction design
 
 **Example:**
+
 ```typescript
 // Unified message format from all channels
 interface NormalizedMessage {
   id: string;
   channelType: 'whatsapp' | 'telegram' | 'email' | 'slack' | 'web';
-  channelId: string;  // Original channel message ID
+  channelId: string; // Original channel message ID
   userId: string;
   content: string;
   timestamp: Date;
-  metadata: Record<string, any>;  // Channel-specific data
+  metadata: Record<string, any>; // Channel-specific data
 }
 
 // Gateway router
@@ -171,25 +173,23 @@ class ChannelGateway {
 **When to use:** When your assistant needs to answer questions based on a knowledge base (documents, emails, CRM data, etc.). Critical for business assistants that need to reference past communications and records.
 
 **Trade-offs:**
+
 - **Pros:** Better accuracy than pure vector or keyword search alone; handles both semantic and exact-match queries; reranking improves top-k precision
 - **Cons:** Higher latency (three-stage process); more complex infrastructure (vector DB + search index + reranking model); increased compute costs
 
 **Example:**
+
 ```typescript
 class HybridRetriever {
   async retrieve(query: string, topK: number = 10): Promise<Document[]> {
     // Stage 1: Parallel retrieval
     const [vectorResults, bm25Results] = await Promise.all([
-      this.vectorDB.search(query, topK * 2),  // Over-retrieve
-      this.searchIndex.bm25Search(query, topK * 2)
+      this.vectorDB.search(query, topK * 2), // Over-retrieve
+      this.searchIndex.bm25Search(query, topK * 2),
     ]);
 
     // Stage 2: Reciprocal Rank Fusion (RRF)
-    const fusedResults = this.reciprocalRankFusion(
-      vectorResults,
-      bm25Results,
-      topK * 2
-    );
+    const fusedResults = this.reciprocalRankFusion(vectorResults, bm25Results, topK * 2);
 
     // Stage 3: Cross-encoder reranking
     const reranked = await this.reranker.rerank(query, fusedResults, topK);
@@ -206,10 +206,12 @@ class HybridRetriever {
 **When to use:** Production systems with cost constraints and variable query complexity (common for business assistants with both simple FAQs and complex multi-step tasks).
 
 **Trade-offs:**
+
 - **Pros:** Dramatically reduced LLM costs; lower latency for simple queries; better resource utilization
 - **Cons:** Complexity in classification logic; risk of misrouting (simple query to expensive model or complex query to cheap model); requires careful tuning
 
 **Example:**
+
 ```typescript
 class ModelRouter {
   async route(query: string, context: Context): Promise<Response> {
@@ -242,7 +244,7 @@ class ModelRouter {
       length: query.length,
       hasMultipleQuestions: query.split('?').length > 2,
       requiresPlanning: /schedule|organize|coordinate|arrange/.test(query),
-      requiresExternal: /send|create|update|delete/.test(query)
+      requiresExternal: /send|create|update|delete/.test(query),
     };
 
     if (features.requiresPlanning || features.requiresExternal) {
@@ -263,10 +265,12 @@ class ModelRouter {
 **When to use:** Production systems with external dependencies (embedding models, vector DBs, LLMs) that can occasionally have high latency or failures.
 
 **Trade-offs:**
+
 - **Pros:** Predictable user experience; system remains responsive under load; prevents cascading failures
 - **Cons:** May return lower-quality results under stress; requires defining acceptable fallback paths; more complex error handling
 
 **Example:**
+
 ```typescript
 class ReliableOrchestrator {
   async handleMessage(message: NormalizedMessage): Promise<Response> {
@@ -279,7 +283,6 @@ class ReliableOrchestrator {
       );
 
       return await this.llm.generate(message.content, context);
-
     } catch (error) {
       if (error.code === 'rag_timeout') {
         // Fallback: Skip RAG, use LLM only (5s timeout)
@@ -301,16 +304,10 @@ class ReliableOrchestrator {
     }
   }
 
-  private async timeoutAfter<T>(
-    promise: Promise<T>,
-    ms: number,
-    errorCode: string
-  ): Promise<T> {
+  private async timeoutAfter<T>(promise: Promise<T>, ms: number, errorCode: string): Promise<T> {
     return Promise.race([
       promise,
-      new Promise<T>((_, reject) =>
-        setTimeout(() => reject({ code: errorCode }), ms)
-      )
+      new Promise<T>((_, reject) => setTimeout(() => reject({ code: errorCode }), ms)),
     ]);
   }
 }
@@ -323,28 +320,27 @@ class ReliableOrchestrator {
 **When to use:** Any assistant with multi-turn conversations, context-dependent responses, or workflows spanning multiple messages.
 
 **Trade-offs:**
+
 - **Pros:** Enables coherent multi-turn conversations; supports complex workflows; prevents context leakage between users
 - **Cons:** State storage overhead; session cleanup complexity; potential for stale state
 
 **Example:**
+
 ```typescript
 interface ConversationState {
   userId: string;
   channelType: string;
   sessionId: string;
   history: Message[];
-  context: Record<string, any>;  // Workflow-specific state
+  context: Record<string, any>; // Workflow-specific state
   lastActivity: Date;
-  ttl: number;  // Time to live in seconds
+  ttl: number; // Time to live in seconds
 }
 
 class DialogManager {
   constructor(private stateStore: Redis) {}
 
-  async getOrCreateSession(
-    userId: string,
-    channelType: string
-  ): Promise<ConversationState> {
+  async getOrCreateSession(userId: string, channelType: string): Promise<ConversationState> {
     const sessionKey = `session:${userId}:${channelType}`;
     const existing = await this.stateStore.get(sessionKey);
 
@@ -359,14 +355,10 @@ class DialogManager {
       history: [],
       context: {},
       lastActivity: new Date(),
-      ttl: 3600  // 1 hour
+      ttl: 3600, // 1 hour
     };
 
-    await this.stateStore.setex(
-      sessionKey,
-      newSession.ttl,
-      JSON.stringify(newSession)
-    );
+    await this.stateStore.setex(sessionKey, newSession.ttl, JSON.stringify(newSession));
 
     return newSession;
   }
@@ -385,11 +377,7 @@ class DialogManager {
     }
 
     const sessionKey = `session:${session.userId}:${session.channelType}`;
-    await this.stateStore.setex(
-      sessionKey,
-      session.ttl,
-      JSON.stringify(session)
-    );
+    await this.stateStore.setex(sessionKey, session.ttl, JSON.stringify(session));
   }
 }
 ```
@@ -513,6 +501,7 @@ class DialogManager {
 ```
 
 **Demo Characteristics:**
+
 - **Frontend only:** React SPA with all logic in browser
 - **Mock channels:** Simulate different channel UIs (WhatsApp-like, Slack-like, Email-like) in one interface
 - **Simplified orchestration:** Pattern matching + predefined scenarios instead of real intent classification
@@ -521,6 +510,7 @@ class DialogManager {
 - **API key in browser:** OpenAI/Anthropic API calls directly from browser (for demo only, with rate limits)
 
 **Demo Limitations:**
+
 - No persistent state (refresh loses context)
 - No real channel integrations
 - Limited knowledge base (100-200 documents max)
@@ -560,6 +550,7 @@ class DialogManager {
 ```
 
 **Production Characteristics:**
+
 - **Backend services:** Node.js/Python microservices or monolith (start simple)
 - **Real channel webhooks:** Verified webhooks for each platform with proper authentication
 - **Production orchestration:** LangChain/Semantic Kernel with robust error handling
@@ -572,26 +563,26 @@ class DialogManager {
 
 ### Migration Path: Demo → Production
 
-| Component | Demo | Production | Migration Strategy |
-|-----------|------|------------|-------------------|
-| **Channels** | Simulated UI | Real webhook integrations | Start with 1-2 channels, add incrementally |
-| **Orchestration** | Pattern matching | LangChain/Semantic Kernel | Extract patterns as initial routing logic |
-| **State** | In-memory | Redis + PostgreSQL | Lift state management code, add persistence layer |
-| **RAG** | In-memory vectors | Vector DB (Pinecone) | Same chunking logic, swap storage backend |
-| **LLM** | Direct API | API with routing/caching | Add routing layer around existing calls |
-| **Actions** | Mock responses | Real API integrations | Replace mocks with OAuth + API clients |
-| **Auth** | None | Multi-tenant auth | Add auth layer, migrate demo users |
+| Component         | Demo              | Production                | Migration Strategy                                |
+| ----------------- | ----------------- | ------------------------- | ------------------------------------------------- |
+| **Channels**      | Simulated UI      | Real webhook integrations | Start with 1-2 channels, add incrementally        |
+| **Orchestration** | Pattern matching  | LangChain/Semantic Kernel | Extract patterns as initial routing logic         |
+| **State**         | In-memory         | Redis + PostgreSQL        | Lift state management code, add persistence layer |
+| **RAG**           | In-memory vectors | Vector DB (Pinecone)      | Same chunking logic, swap storage backend         |
+| **LLM**           | Direct API        | API with routing/caching  | Add routing layer around existing calls           |
+| **Actions**       | Mock responses    | Real API integrations     | Replace mocks with OAuth + API clients            |
+| **Auth**          | None              | Multi-tenant auth         | Add auth layer, migrate demo users                |
 
 **Key Insight:** Build demo with production architecture in mind. Use interfaces and dependency injection so components can be swapped easily (e.g., `StateStore` interface with `InMemoryStateStore` for demo, `RedisStateStore` for production).
 
 ## Scaling Considerations
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| **0-100 users** | Monolith is fine. Single server Node.js app, SQLite or small PostgreSQL, no vector DB (in-memory search). Optimize for fast iteration and feature completeness. |
-| **100-10K users** | Add caching layer (Redis). Migrate to proper vector DB (Pinecone/Chroma). Separate long-running tasks to background workers (BullMQ). Optimize chunking and retrieval. Still monolith or simple microservices. |
-| **10K-100K users** | Horizontal scaling: Load balancer + multiple app instances. Separate read/write databases. CDN for static assets. Rate limiting per tenant. Consider splitting heavy components (RAG, action executor) into separate services. |
-| **100K+ users** | Microservices architecture. Dedicated services for channels, orchestration, RAG, actions. Message queue between services. Distributed caching. Multi-region deployment. Dedicated infrastructure for AI workloads (GPU clusters for embeddings). |
+| Scale              | Architecture Adjustments                                                                                                                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **0-100 users**    | Monolith is fine. Single server Node.js app, SQLite or small PostgreSQL, no vector DB (in-memory search). Optimize for fast iteration and feature completeness.                                                                                  |
+| **100-10K users**  | Add caching layer (Redis). Migrate to proper vector DB (Pinecone/Chroma). Separate long-running tasks to background workers (BullMQ). Optimize chunking and retrieval. Still monolith or simple microservices.                                   |
+| **10K-100K users** | Horizontal scaling: Load balancer + multiple app instances. Separate read/write databases. CDN for static assets. Rate limiting per tenant. Consider splitting heavy components (RAG, action executor) into separate services.                   |
+| **100K+ users**    | Microservices architecture. Dedicated services for channels, orchestration, RAG, actions. Message queue between services. Distributed caching. Multi-region deployment. Dedicated infrastructure for AI workloads (GPU clusters for embeddings). |
 
 ### Scaling Priorities
 
@@ -617,14 +608,14 @@ class DialogManager {
 // BAD: Business logic in channel handler
 app.post('/webhook/whatsapp', async (req, res) => {
   const message = req.body.message;
-  const response = await openai.chat({ prompt: message });  // ❌
+  const response = await openai.chat({ prompt: message }); // ❌
   await whatsappAPI.send(req.body.from, response);
   res.sendStatus(200);
 });
 
 // GOOD: Channel adapter delegates to orchestrator
 app.post('/webhook/whatsapp', async (req, res) => {
-  const normalized = whatsappAdapter.normalize(req.body);  // ✅
+  const normalized = whatsappAdapter.normalize(req.body); // ✅
   const response = await orchestrator.handle(normalized);
   await whatsappAdapter.send(response);
   res.sendStatus(200);
@@ -638,6 +629,7 @@ app.post('/webhook/whatsapp', async (req, res) => {
 **Why it's wrong:** RAG systems have a 73% failure rate in enterprise deployments, mostly due to poor chunking and retrieval configuration. Chunking strategy has massive impact on retrieval accuracy. Default settings rarely work well for domain-specific data.
 
 **Do this instead:** Follow systematic RAG development process:
+
 1. Test multiple chunking strategies on your data (sentence-based, fixed-size, semantic)
 2. Visualize embeddings to verify semantic grouping
 3. Evaluate retrieval quality before connecting to LLM (precision@K, recall@K)
@@ -646,7 +638,7 @@ app.post('/webhook/whatsapp', async (req, res) => {
 
 ```typescript
 // BAD: Default RAG without evaluation
-const chunks = document.split(512);  // ❌ Arbitrary chunk size
+const chunks = document.split(512); // ❌ Arbitrary chunk size
 const embedded = await embed(chunks);
 await vectorDB.insert(embedded);
 
@@ -655,7 +647,7 @@ await vectorDB.insert(embedded);
 const strategies = [
   new SentenceChunker({ maxTokens: 512 }),
   new SemanticChunker({ similarityThreshold: 0.8 }),
-  new FixedSizeChunker({ size: 1024, overlap: 128 })
+  new FixedSizeChunker({ size: 1024, overlap: 128 }),
 ];
 
 // 2. Evaluate each on test queries
@@ -663,7 +655,7 @@ const best = await evaluateChunkingStrategies(strategies, testQueries);
 
 // 3. Use best strategy
 const chunks = best.chunk(document);
-const enriched = await enrichWithMetadata(chunks);  // Add summaries, keywords
+const enriched = await enrichWithMetadata(chunks); // Add summaries, keywords
 const embedded = await embed(enriched);
 await vectorDB.insert(embedded);
 ```
@@ -679,8 +671,8 @@ await vectorDB.insert(embedded);
 ```typescript
 // BAD: No timeout, no fallback
 async function handleMessage(message: string): Promise<Response> {
-  const context = await rag.retrieve(message);  // ❌ Can hang forever
-  const response = await llm.generate(message, context);  // ❌ Can hang forever
+  const context = await rag.retrieve(message); // ❌ Can hang forever
+  const response = await llm.generate(message, context); // ❌ Can hang forever
   return response;
 }
 
@@ -716,30 +708,27 @@ async function handleMessage(message: string): Promise<Response> {
 ```typescript
 // BAD: Stateless, each message independent
 async function handleMessage(message: string): Promise<Response> {
-  const context = await rag.retrieve(message);  // ❌ No history
+  const context = await rag.retrieve(message); // ❌ No history
   return await llm.generate(message, context);
 }
 
 // GOOD: Stateful with history-aware retrieval
-async function handleMessage(
-  message: string,
-  session: ConversationState
-): Promise<Response> {
+async function handleMessage(message: string, session: ConversationState): Promise<Response> {
   // Resolve references using history
   const resolvedQuery = await resolveReferences(message, session.history);
 
   // Retrieve with conversation context
   const context = await rag.retrieve(resolvedQuery, {
     filters: { userId: session.userId },
-    boostRecent: true,  // Recent docs more relevant
-    conversationContext: session.history.slice(-3)  // Last 3 turns
+    boostRecent: true, // Recent docs more relevant
+    conversationContext: session.history.slice(-3), // Last 3 turns
   });
 
   // Generate with full context
   const response = await llm.generate(message, {
     context,
     conversationHistory: session.history,
-    workflowState: session.context
+    workflowState: session.context,
   });
 
   // Update session
@@ -786,35 +775,37 @@ async function handleMessage(
 
 ### External Services
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| **WhatsApp Business API** | Webhook (inbound) + REST API (outbound) | Requires business verification; webhook must respond within 20s; supports media, templates |
-| **Telegram Bot API** | Long polling or webhook + REST API | Simpler than WhatsApp; no verification; supports inline keyboards, rich media |
-| **Email (IMAP/SMTP)** | IMAP for receiving, SMTP for sending | Use oauth2 for Gmail/Outlook; handle threading (In-Reply-To, References headers) |
-| **Slack App** | Events API (webhook) + Web API | OAuth2 for workspace installation; supports slash commands, interactive components |
-| **OpenAI API** | REST API with streaming | Use streaming for lower perceived latency; implement exponential backoff; cache embeddings |
-| **Anthropic (Claude)** | REST API with streaming | Similar to OpenAI; supports larger contexts (200K tokens); good for long documents |
-| **Vector DB (Pinecone)** | gRPC/REST API | Supports namespaces for multi-tenancy; upsert in batches; use metadata filtering |
-| **Calendar (Google/Outlook)** | OAuth2 + REST API | Requires user consent; handle timezone conversions; webhook for event updates |
-| **CRM (Salesforce, HubSpot)** | OAuth2 + REST API | Rate limits vary; use bulk APIs for large operations; webhook for real-time updates |
+| Service                       | Integration Pattern                     | Notes                                                                                      |
+| ----------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **WhatsApp Business API**     | Webhook (inbound) + REST API (outbound) | Requires business verification; webhook must respond within 20s; supports media, templates |
+| **Telegram Bot API**          | Long polling or webhook + REST API      | Simpler than WhatsApp; no verification; supports inline keyboards, rich media              |
+| **Email (IMAP/SMTP)**         | IMAP for receiving, SMTP for sending    | Use oauth2 for Gmail/Outlook; handle threading (In-Reply-To, References headers)           |
+| **Slack App**                 | Events API (webhook) + Web API          | OAuth2 for workspace installation; supports slash commands, interactive components         |
+| **OpenAI API**                | REST API with streaming                 | Use streaming for lower perceived latency; implement exponential backoff; cache embeddings |
+| **Anthropic (Claude)**        | REST API with streaming                 | Similar to OpenAI; supports larger contexts (200K tokens); good for long documents         |
+| **Vector DB (Pinecone)**      | gRPC/REST API                           | Supports namespaces for multi-tenancy; upsert in batches; use metadata filtering           |
+| **Calendar (Google/Outlook)** | OAuth2 + REST API                       | Requires user consent; handle timezone conversions; webhook for event updates              |
+| **CRM (Salesforce, HubSpot)** | OAuth2 + REST API                       | Rate limits vary; use bulk APIs for large operations; webhook for real-time updates        |
 
 ### Internal Boundaries
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| **Channel ↔ Gateway** | Direct function calls (monolith) or HTTP (microservices) | Channel adapters implement `MessageAdapter` interface; gateway calls `adapter.normalize(rawMessage)` |
-| **Gateway ↔ Orchestrator** | Direct function calls (monolith) or message queue (microservices) | Gateway emits `MessageReceived` event; orchestrator subscribes; ensures at-least-once delivery |
-| **Orchestrator ↔ RAG** | Direct function calls or gRPC | Orchestrator calls `rag.retrieve(query, filters)` synchronously; returns `Document[]` |
-| **Orchestrator ↔ LLM** | Direct API calls with abstraction | Orchestrator calls `llm.generate(prompt, options)` via provider-agnostic interface |
-| **Orchestrator ↔ Actions** | Tool/function calling protocol | Orchestrator passes `ToolCall` objects; actions return `ToolResult`; supports async execution |
-| **Dialog Manager ↔ State Store** | Redis client or database ORM | Dialog manager calls `stateStore.get/set(sessionId, state)`; supports TTL and atomic updates |
+| Boundary                         | Communication                                                     | Notes                                                                                                |
+| -------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Channel ↔ Gateway**            | Direct function calls (monolith) or HTTP (microservices)          | Channel adapters implement `MessageAdapter` interface; gateway calls `adapter.normalize(rawMessage)` |
+| **Gateway ↔ Orchestrator**       | Direct function calls (monolith) or message queue (microservices) | Gateway emits `MessageReceived` event; orchestrator subscribes; ensures at-least-once delivery       |
+| **Orchestrator ↔ RAG**           | Direct function calls or gRPC                                     | Orchestrator calls `rag.retrieve(query, filters)` synchronously; returns `Document[]`                |
+| **Orchestrator ↔ LLM**           | Direct API calls with abstraction                                 | Orchestrator calls `llm.generate(prompt, options)` via provider-agnostic interface                   |
+| **Orchestrator ↔ Actions**       | Tool/function calling protocol                                    | Orchestrator passes `ToolCall` objects; actions return `ToolResult`; supports async execution        |
+| **Dialog Manager ↔ State Store** | Redis client or database ORM                                      | Dialog manager calls `stateStore.get/set(sessionId, state)`; supports TTL and atomic updates         |
 
 ## Build Order Recommendations
 
 ### Phase 1: Single-Channel Demo (2-3 weeks)
+
 **Goal:** Prove core assistant value without infrastructure complexity.
 
 **Build order:**
+
 1. Static web chat UI (React)
 2. Client-side orchestrator with pattern matching
 3. Direct OpenAI API integration (browser calls)
@@ -824,9 +815,11 @@ async function handleMessage(
 **Why this order:** Start with visible value (working chat). Add intelligence (LLM). Add features (actions). No backend needed yet.
 
 ### Phase 2: Multi-Channel Gateway (2-3 weeks)
+
 **Goal:** Demonstrate "one brain, many channels" concept.
 
 **Build order:**
+
 1. Gateway abstraction layer
 2. Multiple channel UIs in demo (WhatsApp-like, Slack-like, Email-like)
 3. Unified message normalization
@@ -836,9 +829,11 @@ async function handleMessage(
 **Why this order:** Proves multi-channel value before investing in real integrations. Test gateway abstraction with simulated channels before adding webhook complexity.
 
 ### Phase 3: Production Backend Foundation (3-4 weeks)
+
 **Goal:** Migrate from client-side to server-side, add persistence.
 
 **Build order:**
+
 1. Node.js backend with Express/Fastify
 2. Move orchestrator to backend
 3. Add Redis for session state
@@ -849,9 +844,11 @@ async function handleMessage(
 **Why this order:** Backend first, then persistence. Proves deployment before adding complex features. Users and sessions before advanced features.
 
 ### Phase 4: Production RAG (3-4 weeks)
+
 **Goal:** Add knowledge base with proper retrieval.
 
 **Build order:**
+
 1. Document ingestion pipeline (chunking, enrichment)
 2. Embedding generation (OpenAI embeddings)
 3. Vector DB integration (Pinecone or Chroma)
@@ -862,9 +859,11 @@ async function handleMessage(
 **Why this order:** Data pipeline before retrieval. Simple retrieval before hybrid. Hybrid before reranking. Evaluation throughout.
 
 ### Phase 5: Real Channel Integrations (2-3 weeks per channel)
+
 **Goal:** Replace simulated channels with real integrations.
 
 **Build order:**
+
 1. Start with simplest channel (Telegram - no verification)
 2. Add webhook handling and verification
 3. Implement send/receive adapters
@@ -876,9 +875,11 @@ async function handleMessage(
 **Why this order:** Prove pattern with simplest channel first. Each subsequent channel is faster due to reusable gateway abstraction.
 
 ### Phase 6: Production Actions (2-3 weeks)
+
 **Goal:** Replace mock actions with real integrations.
 
 **Build order:**
+
 1. OAuth2 flow for user consent (Google, Microsoft)
 2. Calendar integration (read/write events)
 3. Email integration (send, search)
@@ -889,9 +890,11 @@ async function handleMessage(
 **Why this order:** Auth first (required for all integrations). Start with calendar (most valuable for assistant). Email next. CRM last (most complex). Async execution after proving synchronous works.
 
 ### Phase 7: Reliability & Scale (Ongoing)
+
 **Goal:** Production-ready reliability, monitoring, and scaling.
 
 **Build order:**
+
 1. Structured logging (Winston, Pino)
 2. Error tracking (Sentry)
 3. Metrics and monitoring (Datadog, Prometheus)
@@ -908,30 +911,36 @@ async function handleMessage(
 ## Sources
 
 **Architecture Patterns & Design:**
+
 - [The voice AI stack for building agents in 2026](https://www.assemblyai.com/blog/the-voice-ai-stack-for-building-agents)
 - [AI System Design Patterns for 2026: Architecture That Scales](https://zenvanriel.nl/ai-engineer-blog/ai-system-design-patterns-2026/)
 - [Agent system design patterns - Azure Databricks](https://docs.databricks.com/aws/en/generative-ai/guide/agent-system-design-patterns)
 - [Decoding the AI Virtual Assistant Design Architecture](https://medium.com/@senol.isci/decoding-the-ai-virtual-assistant-design-architecture-an-in-depth-look-into-design-components-73fabba31de8)
 
 **RAG Architecture:**
+
 - [Building Production RAG Systems in 2026: Complete Architecture Guide](https://brlikhon.engineer/blog/building-production-rag-systems-in-2026-complete-architecture-guide)
 - [Design and Develop a RAG Solution - Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide)
 - [RAG in 2026: How Retrieval-Augmented Generation Works for Enterprise AI](https://www.techment.com/blogs/rag-in-2026-enterprise-ai/)
 
 **Multi-Channel Architecture:**
+
 - [How Clawdbot Enables "One Brain, Many Channels"](https://medium.com/@imranmsa93/how-clawdbot-enables-one-brain-many-channels-ai-agents-across-whatsapp-slack-telegram-and-b49242261419)
 - [What are Multichannel Chatbots: A Detailed Guide 2026](https://www.proprofschat.com/blog/multichannel-chatbot/)
 - [Clawdbot 2026: Complete Production Guide](https://brlikhon.engineer/blog/clawdbot-2026-complete-production-guide-architecture-deployment-cost-optimization)
 
 **Chatbot Architecture:**
+
 - [How to Build a Chatbot: Components & Architecture in 2026](https://research.aimultiple.com/chatbot-architecture/)
 - [SmythOS - Conversational Agent Architecture](https://smythos.com/developers/agent-development/conversational-agent-architecture/)
 
 **Agentic AI:**
+
 - [Agentic AI for Enterprises in 2026](https://acmeminds.com/amplDev/blog/agentic-ai-for-enterprises-in-2026-a-practical-guide/)
 - [4 Agentic AI Design Patterns & Real-World Examples](https://research.aimultiple.com/agentic-ai-design-patterns/)
 
 ---
-*Architecture research for: AI Business Assistant / Virtual Secretary*
-*Researched: 2026-02-04*
-*Confidence: MEDIUM (WebSearch verified with Microsoft/Databricks official docs)*
+
+_Architecture research for: AI Business Assistant / Virtual Secretary_
+_Researched: 2026-02-04_
+_Confidence: MEDIUM (WebSearch verified with Microsoft/Databricks official docs)_
