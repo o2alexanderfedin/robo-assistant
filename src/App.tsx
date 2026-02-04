@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils';
+import { SplitLayout } from '@/components/layout/SplitLayout';
 
 function App() {
-  return <div className={cn('text-foreground')}>Robo Assistant</div>;
+  return <SplitLayout />;
 }
 
 export default App;
