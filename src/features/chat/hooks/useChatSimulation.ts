@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { ChatMessage } from '../types';
 import type { Persona } from '@/features/personas/types';
 import { getScenarioResponse, getWelcomeMessage } from '@/features/demo-scenarios';
@@ -23,16 +23,26 @@ function calculateTypingDelay(responseLength: number): number {
 }
 
 export function useChatSimulation(persona: Persona): UseChatSimulationReturn {
+  const previousPersonaIdRef = useRef<string>(persona.id);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
 
   // Show welcome message on mount or when persona changes
   useEffect(() => {
-    setMessages([]);
-    setIsTyping(true);
+    // Only reset if persona actually changed
+    if (previousPersonaIdRef.current === persona.id && messages.length > 0) {
+      return;
+    }
+
+    previousPersonaIdRef.current = persona.id;
 
     // Brief delay before welcome message
-    setTimeout(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional reset on persona change
+    setMessages([]);
+
+    setIsTyping(true);
+
+    const timer = setTimeout(() => {
       const welcomeResponse = getWelcomeMessage(persona);
       const welcomeMessage: ChatMessage = {
         id: `assistant-welcome-${Date.now()}`,
@@ -44,7 +54,9 @@ export function useChatSimulation(persona: Persona): UseChatSimulationReturn {
       setMessages([welcomeMessage]);
       setIsTyping(false);
     }, 500);
-  }, [persona]);
+
+    return () => clearTimeout(timer);
+  }, [persona, messages.length]);
 
   const sendMessage = useCallback(
     (content: string) => {
