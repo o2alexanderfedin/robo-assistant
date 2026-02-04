@@ -10,30 +10,30 @@ See: .planning/PROJECT.md (updated 2026-02-04)
 ## Current Position
 
 Phase: 1 of 4 (Demo Foundation)
-Plan: 3 of 6 in current phase
+Plan: 4 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-04 — Completed 01-03-PLAN.md (Chat Interface)
+Last activity: 2026-02-04 — Completed 01-04-PLAN.md (Demo Data & Personas)
 
-Progress: [███░░░░░░░] 12% (3/25 total plans)
+Progress: [███░░░░░░░] 16% (4/25 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
-- Average duration: 5m 51s
-- Total execution time: 0.29 hours
+- Total plans completed: 4
+- Average duration: 7m 18s
+- Total execution time: 0.49 hours
 
 **By Phase:**
 
 | Phase                | Plans | Total   | Avg/Plan |
 | -------------------- | ----- | ------- | -------- |
-| 1. Demo Foundation   | 3/6   | 17m 32s | 5m 51s   |
+| 1. Demo Foundation   | 4/6   | 29m 13s | 7m 18s   |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (5m 39s), 01-02 (7m 32s), 01-03 (4m 21s)
-- Trend: Accelerating pace as foundation solidifies
+- Last 5 plans: 01-01 (5m 39s), 01-02 (7m 32s), 01-03 (4m 21s), 01-04 (11m 41s)
+- Trend: Data-heavy tasks take longer but remain efficient
 
 _Updated after each plan completion_
 
@@ -59,6 +59,10 @@ Recent decisions affecting current work:
 - Auto-scroll with 50px threshold (01-03: respects user scroll position)
 - Keyword-based response simulation (01-03: sufficient for demo, enhance later)
 - Feature folder structure (01-03: src/features/chat/ with types, components, hooks)
+- Feature-based directory organization (01-04: features/personas, features/demo-scenarios)
+- Trigger pattern matching for scenario detection (01-04: simple keyword-based, extensible)
+- Step tracking via history (01-04: count interactions to determine conversation step)
+- Graceful off-script handling (01-04: helpful redirects to available scenarios)
 
 ### Pending Todos
 
@@ -70,11 +74,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-04 22:06 UTC
-Stopped at: Completed 01-03-PLAN.md (Chat Interface)
+Last session: 2026-02-04 22:13 UTC
+Stopped at: Completed 01-04-PLAN.md (Demo Data & Personas)
 Resume file: None
 
 ---
 
 _State initialized: 2026-02-04_
-_Last updated: 2026-02-04 after 01-03 plan completion_
+_Last updated: 2026-02-04 after 01-04 plan completion_
