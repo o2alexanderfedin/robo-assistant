@@ -25,7 +25,7 @@ interface TaskExtractionMockData {
 export const taskExtractionScenario: ScenarioData<TaskExtractionMockData> = {
   id: 'task-extraction',
   name: 'Task Management',
-  triggerPatterns: ['task', 'to-do', 'todo', 'action item', 'follow up', 'reminder'],
+  triggerPatterns: ['task', 'to-do', 'todo', 'action item', 'follow up', 'reminder', 'list'],
   description: 'Intelligent task extraction and organization',
   mockData: {
     tasks: [
@@ -64,8 +64,7 @@ export const taskExtractionScenario: ScenarioData<TaskExtractionMockData> = {
       {
         id: 'task-004',
         title: 'Review Q4 earnings call script',
-        description:
-          'Review talking points and analyst Q&A prep for Thursday investor call',
+        description: 'Review talking points and analyst Q&A prep for Thursday investor call',
         priority: 'medium',
         dueDate: new Date('2026-02-05T09:00:00'),
         status: 'upcoming',
