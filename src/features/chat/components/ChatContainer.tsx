@@ -12,9 +12,7 @@ export function ChatContainer() {
       {/* Header */}
       <div className="border-b px-4 py-3 bg-background">
         <h2 className="text-lg font-semibold">Chat Assistant</h2>
-        <p className="text-xs text-muted-foreground">
-          AI-powered business communication assistant
-        </p>
+        <p className="text-xs text-muted-foreground">AI-powered business communication assistant</p>
       </div>
 
       {/* Message List */}

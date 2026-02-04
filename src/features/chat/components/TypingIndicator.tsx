@@ -7,18 +7,19 @@ export function TypingIndicator() {
         <div className="flex items-center gap-1">
           <span className="text-xs text-muted-foreground mr-2">Assistant is typing</span>
           <div className="flex gap-1">
-            <div className={cn(
-              'w-2 h-2 bg-muted-foreground/60 rounded-full',
-              'animate-bounce [animation-delay:-0.3s]'
-            )} />
-            <div className={cn(
-              'w-2 h-2 bg-muted-foreground/60 rounded-full',
-              'animate-bounce [animation-delay:-0.15s]'
-            )} />
-            <div className={cn(
-              'w-2 h-2 bg-muted-foreground/60 rounded-full',
-              'animate-bounce'
-            )} />
+            <div
+              className={cn(
+                'w-2 h-2 bg-muted-foreground/60 rounded-full',
+                'animate-bounce [animation-delay:-0.3s]'
+              )}
+            />
+            <div
+              className={cn(
+                'w-2 h-2 bg-muted-foreground/60 rounded-full',
+                'animate-bounce [animation-delay:-0.15s]'
+              )}
+            />
+            <div className={cn('w-2 h-2 bg-muted-foreground/60 rounded-full', 'animate-bounce')} />
           </div>
         </div>
       </div>
