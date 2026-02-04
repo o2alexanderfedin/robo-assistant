@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { ChatMessage } from '../types';
 
 interface UseAutoScrollReturn {
-  scrollRef: React.RefObject<HTMLDivElement>;
-  anchorRef: React.RefObject<HTMLDivElement>;
+  scrollRef: React.RefObject<HTMLDivElement | null>;
+  anchorRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function useAutoScroll(messages: ChatMessage[]): UseAutoScrollReturn {

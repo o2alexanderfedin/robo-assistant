@@ -25,12 +25,10 @@ function calculateTypingDelay(responseLength: number): number {
 export function useChatSimulation(persona: Persona): UseChatSimulationReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [currentScenario, setCurrentScenario] = useState<string | null>(null);
 
   // Show welcome message on mount or when persona changes
   useEffect(() => {
     setMessages([]);
-    setCurrentScenario(null);
     setIsTyping(true);
 
     // Brief delay before welcome message
@@ -74,11 +72,6 @@ export function useChatSimulation(persona: Persona): UseChatSimulationReturn {
           timestamp: m.timestamp,
         }))
       );
-
-      // Track scenario state
-      if (scenarioResponse.scenarioId) {
-        setCurrentScenario(scenarioResponse.scenarioId);
-      }
 
       // Calculate realistic typing delay based on response length
       const delay = calculateTypingDelay(scenarioResponse.message.length);

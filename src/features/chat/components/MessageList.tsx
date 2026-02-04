@@ -7,8 +7,8 @@ import type { ChatMessage } from '../types';
 interface MessageListProps {
   messages: ChatMessage[];
   isTyping?: boolean;
-  scrollRef?: React.RefObject<HTMLDivElement>;
-  anchorRef?: React.RefObject<HTMLDivElement>;
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
+  anchorRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
