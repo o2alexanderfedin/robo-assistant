@@ -1,5 +1,5 @@
 import { LeftPanel } from './LeftPanel';
-import { RightPanel } from './RightPanel';
+import { ChatContainer } from '@/features/chat';
 
 export function SplitLayout() {
   return (
@@ -11,7 +11,7 @@ export function SplitLayout() {
 
       {/* Right Panel - Fills remaining space */}
       <div className="flex-1 overflow-hidden">
-        <RightPanel />
+        <ChatContainer />
       </div>
     </div>
   );
