@@ -10,30 +10,30 @@ See: .planning/PROJECT.md (updated 2026-02-04)
 ## Current Position
 
 Phase: 1 of 4 (Demo Foundation)
-Plan: 4 of 6 in current phase
+Plan: 6 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-04 — Completed 01-04-PLAN.md (Demo Data & Personas)
+Last activity: 2026-02-04 — Completed 01-06-PLAN.md (GitHub Pages Deployment)
 
-Progress: [███░░░░░░░] 16% (4/25 total plans)
+Progress: [████░░░░░░] 24% (6/25 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
-- Average duration: 7m 18s
-- Total execution time: 0.49 hours
+- Total plans completed: 6
+- Average duration: 6m 46s
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
 | Phase                | Plans | Total   | Avg/Plan |
 | -------------------- | ----- | ------- | -------- |
-| 1. Demo Foundation   | 4/6   | 29m 13s | 7m 18s   |
+| 1. Demo Foundation   | 6/6   | 40m 34s | 6m 46s   |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (5m 39s), 01-02 (7m 32s), 01-03 (4m 21s), 01-04 (11m 41s)
-- Trend: Data-heavy tasks take longer but remain efficient
+- Last 5 plans: 01-02 (7m 32s), 01-03 (4m 21s), 01-04 (11m 41s), 01-05 (0m 0s), 01-06 (5m 21s)
+- Trend: Consistent velocity with CI/CD and deployment infrastructure complete
 
 _Updated after each plan completion_
 
@@ -63,6 +63,9 @@ Recent decisions affecting current work:
 - Trigger pattern matching for scenario detection (01-04: simple keyword-based, extensible)
 - Step tracking via history (01-04: count interactions to determine conversation step)
 - Graceful off-script handling (01-04: helpful redirects to available scenarios)
+- GitHub Actions official deploy actions (01-06: actions/deploy-pages instead of peaceiris)
+- SPA routing fallback with sessionStorage (01-06: prepares for React Router without hash routing)
+- shadcn/ui components pattern (01-06: components in src/components/ui/ with Radix primitives)
 
 ### Pending Todos
 
@@ -74,11 +77,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-04 22:13 UTC
-Stopped at: Completed 01-04-PLAN.md (Demo Data & Personas)
+Last session: 2026-02-04 22:21 UTC
+Stopped at: Completed 01-06-PLAN.md (GitHub Pages Deployment)
 Resume file: None
 
 ---
 
 _State initialized: 2026-02-04_
-_Last updated: 2026-02-04 after 01-04 plan completion_
+_Last updated: 2026-02-04 after 01-06 plan completion_
